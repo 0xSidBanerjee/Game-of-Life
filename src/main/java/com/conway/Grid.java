@@ -1,4 +1,4 @@
-package com.example;
+package com.conway;
 
 public class Grid {
 
@@ -36,5 +36,21 @@ public class Grid {
 
     public boolean isValidCell(int row, int col) {
         return row >= 0 && row < rows && col >= 0 && col <cols;
+    }
+
+    public int countLiveNeighbors(int row, int col) {
+        int liveNeighbors = 0;
+
+        for(int i=-1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                if (i==0 && j==0){
+                    continue;
+                }
+                if(isValidCell(row+i, col+j) && cells[row+i][col+j].isAlive()){
+                    liveNeighbors++;
+                }
+            }
+        }
+        return liveNeighbors;
     }
 }
