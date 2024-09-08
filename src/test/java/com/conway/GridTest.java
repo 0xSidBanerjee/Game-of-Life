@@ -102,4 +102,77 @@ public class GridTest {
         grid.setCellState(8,1, true);
         assertEquals(2, grid.countLiveNeighbors(row, col));
     }
+
+    @DisplayName("Update entire grid and produce next generation")
+    @Test
+    public void testUpdateGridToNextGeneration() {
+        boolean[][] initialState = {
+                {true, false, false, false},
+                {true, true, false, true},
+                {true, false, true, false},
+                {true, true, false, true}
+        };
+
+        grid = new Grid(4,4, initialState);
+        grid.nextGeneration();
+
+        assertTrue(grid.getCellState(0,0));
+        assertTrue(grid.getCellState(0,1));
+        assertTrue(grid.getCellState(1,0));
+        assertTrue(grid.getCellState(1,2));
+        assertTrue(grid.getCellState(2,3));
+        assertTrue(grid.getCellState(3,0));
+        assertTrue(grid.getCellState(3,1));
+        assertTrue(grid.getCellState(3,2));
+    }
+
+    @DisplayName("Verification of a stable structure")
+    @Test
+    public void testStableStructure() {
+        boolean[][] initialState = {
+                {false, false, false, false},
+                {false, true, true, false},
+                {false, true, true, false},
+                {false, false, false, false}
+        };
+
+        grid = new Grid(4,4, initialState);
+        grid.nextGeneration();
+
+        // Remains alive
+        assertTrue(grid.getCellState(1,1));
+        assertTrue(grid.getCellState(1,2));
+        assertTrue(grid.getCellState(2,1));
+        assertTrue(grid.getCellState(2,2));
+
+        //Remains dead
+        assertFalse(grid.getCellState(0,3));
+        assertFalse(grid.getCellState(2,0));
+        assertFalse(grid.getCellState(3,1));
+        assertFalse(grid.getCellState(2,3));
+    }
+
+    @DisplayName("Verification of a blinker")
+    @Test
+    public void testBlinker() {
+        boolean[][] initialState = {
+                {false, true, false},
+                {false, true, false},
+                {false, true, false}
+        };
+
+        grid = new Grid(3,3, initialState);
+        grid.nextGeneration();
+        grid.nextGeneration(); //returns to the same state after 2 generations
+
+        // Remains alive
+        assertTrue(grid.getCellState(0,1));
+        assertTrue(grid.getCellState(1,1));
+        assertTrue(grid.getCellState(2,1));
+
+        //Remains dead
+        assertFalse(grid.getCellState(1,0));
+        assertFalse(grid.getCellState(2,0));
+        assertFalse(grid.getCellState(1,2));
+    }
 }

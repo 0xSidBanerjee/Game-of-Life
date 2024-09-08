@@ -18,6 +18,18 @@ public class Grid {
         }
     }
 
+    public Grid(int rows, int cols, boolean[][] initialState){
+        this.rows = rows;
+        this.cols = cols;
+        cells = new Cell[rows][cols];
+
+        for(int row = 0; row < rows; row++){
+            for(int col = 0; col < cols; col++){
+                cells[row][col] = new Cell(initialState[row][col]);
+            }
+        }
+    }
+
     public int getRows(){
         return this.rows;
     }
@@ -52,5 +64,18 @@ public class Grid {
             }
         }
         return liveNeighbors;
+    }
+
+    public void nextGeneration() {
+        Cell[][] newState = new Cell[rows][cols];
+
+        for(int row = 0; row < rows; row++){
+            for(int col = 0; col < cols; col++){
+                int liveNeighbors = countLiveNeighbors(row, col);
+                boolean nextState = cells[row][col].update(liveNeighbors);
+                newState[row][col] = new Cell(nextState);
+            }
+        }
+        cells = newState;
     }
 }

@@ -8,16 +8,16 @@ public class Cell {
         this.alive=alive;
     }
 
-    public void update(int liveNeighbors) {
+    public boolean update(int liveNeighbors) {
         if(alive) {
             if (liveNeighbors <= 3 && liveNeighbors >= 2) {
-                this.alive = true;
+                return true;
             } else {
-                this.alive = false;
+                return false;
             }
         }
         else {
-            this.alive = liveNeighbors==3;
+            return liveNeighbors==3;
         }
     }
 
