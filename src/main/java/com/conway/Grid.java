@@ -72,8 +72,7 @@ public class Grid {
         for(int row = 0; row < rows; row++){
             for(int col = 0; col < cols; col++){
                 int liveNeighbors = countLiveNeighbors(row, col);
-                boolean nextState = cells[row][col].update(liveNeighbors);
-                newState[row][col] = new Cell(nextState);
+                newState[row][col] = new Cell(cells[row][col].update(liveNeighbors));
             }
         }
         cells = newState;

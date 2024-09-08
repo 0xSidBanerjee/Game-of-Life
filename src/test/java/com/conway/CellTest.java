@@ -45,6 +45,6 @@ public class CellTest {
     @Test
     public void testDeadCellWithExactlyThreeLiveNeighborsWillBeAlive() {
         int liveNeighbors=3;
-        assertTrue(liveCell.update(liveNeighbors));
+        assertTrue(deadCell.update(liveNeighbors));
     }
 }

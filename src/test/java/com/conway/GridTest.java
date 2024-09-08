@@ -175,4 +175,80 @@ public class GridTest {
         assertFalse(grid.getCellState(2,0));
         assertFalse(grid.getCellState(1,2));
     }
+
+    @DisplayName("An empty grid remains empty over generations")
+    @Test
+    public void testEmptyGridOverGenerations() {
+        grid.nextGeneration();
+        grid.nextGeneration();
+        grid.nextGeneration();
+        grid.nextGeneration();
+        grid.nextGeneration();
+
+        for(int row = 0; row < grid.getRows(); row++){
+            for(int col = 0; col < grid.getCols(); col++){
+                assertFalse(grid.getCellState(row, col));
+            }
+        }
+    }
+
+    @DisplayName("All cells die if grid is full of live cells")
+    @Test
+    public void testOvercrowding() {
+        boolean[][] initialState ={
+                {true, true, true, true},
+                {true, true, true, true},
+                {true, true, true, true},
+                {true, true, true, true}
+        };
+        grid = new Grid(4,4, initialState);
+        grid.nextGeneration();
+        grid.nextGeneration();
+        grid.nextGeneration();
+
+        for(int row = 0; row < grid.getRows(); row++){
+            for(int col = 0; col < grid.getCols(); col++){
+                assertFalse(grid.getCellState(row, col));
+            }
+        }
+    }
+
+    @DisplayName("Test a glider pattern and verify its movement over multiple generations")
+    @Test
+    public void testGliderPatternMovement() {
+        boolean[][] gliderPattern = {
+                {false, true, false, false, false},
+                {false, false, true, false, false},
+                {true, true, true, false, false},
+                {false, false, false, false, false},
+                {false, false, false, false, false}
+        };
+
+        grid = new Grid(5, 5, gliderPattern);
+
+        // First generation movement
+        grid.nextGeneration();
+        assertTrue(grid.getCellState(1, 0));
+        assertTrue(grid.getCellState(1, 2));
+        assertTrue(grid.getCellState(2, 1));
+        assertTrue(grid.getCellState(2, 2));
+        assertTrue(grid.getCellState(3, 1));
+
+        // Second generation movement
+        grid.nextGeneration();
+        assertTrue(grid.getCellState(1, 2));
+        assertTrue(grid.getCellState(2, 0));
+        assertTrue(grid.getCellState(2, 2));
+        assertTrue(grid.getCellState(3,1));
+        assertTrue(grid.getCellState(3,2));
+
+        // Third generation movement (Glider moves diagonally)
+        grid.nextGeneration();
+        assertTrue(grid.getCellState(1, 1));
+        assertTrue(grid.getCellState(2, 2));
+        assertTrue(grid.getCellState(2, 3));
+        assertTrue(grid.getCellState(3, 1));
+        assertTrue(grid.getCellState(3, 2));
+    }
+
 }
