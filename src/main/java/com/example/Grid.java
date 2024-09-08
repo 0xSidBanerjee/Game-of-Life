@@ -1,9 +1,11 @@
 package com.example;
 
 public class Grid {
+
     private int rows;
     private int cols;
     private Cell[][] cells;
+
     public Grid(int rows, int cols){
         this.rows=rows;
         this.cols=cols;
@@ -30,5 +32,9 @@ public class Grid {
 
     public void setCellState(int rows, int cols, boolean state) {
         cells[rows][cols].setState(state);
+    }
+
+    public boolean isValidCell(int row, int col) {
+        return row >= 0 && row < rows && col >= 0 && col <cols;
     }
 }

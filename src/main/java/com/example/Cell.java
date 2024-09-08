@@ -6,7 +6,7 @@ public class Cell {
         this.alive=alive;
     }
 
-    public void update(int liveNeighbors) { //For updating the state
+    public void update(int liveNeighbors) {
         if(liveNeighbors<=3 && liveNeighbors>=2){
             this.alive=true;
         }
